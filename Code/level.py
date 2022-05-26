@@ -23,7 +23,7 @@ class Level:
     def create_map(self):
 
         layouts = {
-            'boundary': import_csv_layout('map/map_FloorBlocks.csv')
+            'boundary': import_csv_layout('Map/map_FloorBlocks.csv')
         }
 
         for style, layout in layouts.items():
