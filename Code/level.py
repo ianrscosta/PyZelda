@@ -26,6 +26,7 @@ class Level:
             'boundary': import_csv_layout('Map/map_FloorBlocks.csv')
         }
 
+        # drawing the map
         for style, layout in layouts.items():
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
@@ -34,15 +35,13 @@ class Level:
                       y = row_index * TILESIZE
                       if style == 'boundary':
                           Tile((x, y), [self.obstacle_sprites], 'invisible')
-                    #         if col == 'x':
-                    #             Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
-                    #         if col == 'p':
-                    #             self.player = Player(
-                    #                 (x, y), [self.visible_sprites], self.obstacle_sprites)
+
+        # starting the player
         self.player = Player(
             (2000, 1400), [self.visible_sprites], self.obstacle_sprites)
 
     def run(self):
+
         # update and draw the game
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
@@ -51,9 +50,10 @@ class Level:
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
 
-        # general setup
+        # setting up the camera
         super().__init__()
 
+        # getting the middle of the screen to fix the camera to it
         self.display_surface = pygame.display.get_surface()
         self.half_width = self.display_surface.get_size()[0]//2
         self.half_height = self.display_surface.get_size()[1]//2
@@ -70,10 +70,11 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
 
-        # drawing the floor
+        # using the offset to draw the floor without moving the player from the middle
         floor_offset_pos = self.floor_rect.topleft - self.offset
         self.display_surface.blit(self.floor_surf, floor_offset_pos)
 
+        # updatinng the position of all the sprites that are not the floor or the player
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)

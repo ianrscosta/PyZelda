@@ -8,7 +8,7 @@ from level import Level
 class Game:
     def __init__(self):
 
-        # general setup
+        # setting up pygame
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('PyZelda')
@@ -17,12 +17,16 @@ class Game:
         self.level = Level()
 
     def run(self):
+
         while True:
+
+            # "exit the game" functionality
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
+            # starting the game
             self.screen.fill('black')
             self.level.run()
             pygame.display.update()
@@ -30,5 +34,7 @@ class Game:
 
 
 if __name__ == '__main__':
+
+    # calling the functions
     game = Game()
     game.run()
